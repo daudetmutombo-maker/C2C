@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2C - Pilotage Stratégique</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="img/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale compacte (Dock style) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="img/favicon.svg" alt="C2C">
+                <h2>C2C</h2>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li class="active"><a href="#" id="nav-dashboard">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                        <span>Dashboard</span>
+                    </a></li>
+                    <li><a href="#" id="nav-decisions" onclick="document.querySelector('.table-container').scrollIntoView({behavior: 'smooth'}); return false;">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <span>Décisions</span>
+                    </a></li>
+                    <li><a href="#" id="nav-blocages" onclick="window.openBlocagesModal()">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <span>Blocages</span>
+                    </a></li>
+                    <li><a href="#" id="nav-rapports" onclick="document.getElementById('reportsModal').classList.add('show')">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                        <span>Rapports</span>
+                    </a></li>
+                    <li><a href="#" id="nav-admin">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        <span>Admin</span>
+                    </a></li>
+                    <li><a href="#" id="nav-messages" onclick="openMessagingModal()">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Messages</span>
+                    </a></li>
+                    <li><a href="#" id="nav-settings" onclick="window.openSettingsModal()">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        <span>Réglages</span>
+                    </a></li>
+                    <hr>
+                    <li><a href="guide.html" id="nav-guide" target="_blank">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <span>Aide</span>
+                    </a></li>
+                </ul>
+
+                <div class="bot-assistant-wrapper">
+                    <div class="bot-assistant-btn" id="botToggle" title="Besoin d'aide ?">
+                        <span>🤖</span>
+                        Bot
+                    </div>
+                    <div class="bot-panel" id="botPanel">
+                        <h4>Guide Virtuel C2C</h4>
+                        <p>Que voulez-vous apprendre ?</p>
+                        <button class="bot-action-btn" onclick="startTutorial('nouvelleDecision')">Enregistrer une Décision</button>
+                        <button class="bot-action-btn" onclick="startTutorial('modifierDecision')">Corriger une Erreur</button>
+                        <button class="bot-action-btn" onclick="startTutorial('messagerie')">Utiliser la Messagerie</button>
+                        <button class="bot-action-btn" onclick="startTutorial('adminConsole')">Consulter les Logs IT</button>
+                        <button class="bot-action-btn" onclick="startTutorial('blocages')">Consulter les Blocages</button>
+                        <button class="bot-action-btn" onclick="startTutorial('rapports')">Générer un Rapport</button>
+                    </div>
+                </div>
+
+                <div id="designer-signature" class="sidebar-footer">
+                    <p>Daudet MUTOMBO F</p>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Contenu Principal -->
+        <main class="main-content">
+            <!-- Topbar minimal -->
+            <header class="topbar">
+                <button class="btn btn-icon btn-menu-toggle" id="btn-mobile-menu" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher une décision...">
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="btn btn-outline" id="btn-refresh" onclick="refreshDashboard(); showToast('Données actualisées', 'success')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        Actualiser
+                    </button>
+
+                    <button class="btn btn-primary" id="btn-save-manual" onclick="triggerManualSave()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        Sauvegarder
+                    </button>
+
+                    <div id="network-status" class="network-indicator online" title="Système En Ligne">
+                        <span class="dot"></span>
+                    </div>
+
+                    <div class="user-profile">
+                        <span class="user-name" id="display-username">Cabinet</span>
+                        <div class="avatar" id="display-avatar">DC</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Bento Grid -->
+            <section class="dashboard-section" id="dashboard-view">
+                <div class="section-header">
+                    <h1>Tableau de Bord Stratégique</h1>
+                    <button class="btn btn-primary" onclick="openDecisionModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Nouvelle Décision
+                    </button>
+                </div>
+
+                <div class="traffic-lights-cards" id="traffic-lights-container">
+                    <div class="card card-vert pulse">
+                        <h3>Délais respectés</h3>
+                        <div class="value" id="val-vert">--</div>
+                    </div>
+                    <div class="card card-orange pulse">
+                        <h3>Retard mineur</h3>
+                        <div class="value" id="val-orange">--</div>
+                    </div>
+                    <div class="card card-rouge pulse">
+                        <h3>Blocage critique</h3>
+                        <div class="value" id="val-rouge">--</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Décisions Stratégiques</h2>
+                        <button class="btn btn-outline">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                            Filtres
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Réf.</th>
+                                <th>Intitulé</th>
+                                <th>Responsable</th>
+                                <th>Échéance</th>
+                                <th>Statut</th>
+                                <th align="center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="decisions-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Modal Nouvelle Décision -->
+    <div id="decisionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Enregistrer une Nouvelle Décision</h2>
+                <span class="close-btn" onclick="closeDecisionModal()">&times;</span>
+            </div>
+            <form id="decisionForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ref">Référence</label>
+                        <input type="text" id="ref" placeholder="Ex: DEC-2026-001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="autorite">Autorité émettrice</label>
+                        <input type="text" id="autorite" placeholder="Ex: Présidence" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="intitule">Intitulé de la décision</label>
+                    <input type="text" id="intitule" placeholder="Description de la décision présidentielle..." required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="responsable">Structure Responsable</label>
+                        <input type="text" id="responsable" list="structures-list" placeholder="Saisir ou choisir une structure..." required>
+                        <datalist id="structures-list">
+                            <option value="Collège Économie & Finances">
+                            <option value="Collège Infrastructures">
+                            <option value="Collège Diplomatique">
+                            <option value="Cabinet du Président">
+                            <option value="Primature">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="echeance">Date d'échéance</label>
+                        <input type="date" id="echeance" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="echeances_inter">Date d'échéance intermédiaire</label>
+                    <input type="date" id="echeances_inter" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="avancement">Niveau d'exécution (%)</label>
+                        <input type="number" id="avancement" min="0" max="100" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="statut">Statut d'avancement</label>
+                        <select id="statut" required>
+                            <option value="vert">Vert (Dans les temps)</option>
+                            <option value="orange">Orange (Retard mineur/Difficultés)</option>
+                            <option value="rouge">Rouge (Retard majeur/Blocage)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="difficultes">Difficultés rencontrées / Blocages</label>
+                    <textarea id="difficultes" rows="2" placeholder="Décrivez les goulots d'étranglement ou retards..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="mesures">Mesures correctrices proposées</label>
+                    <textarea id="mesures" rows="2" placeholder="Solutions pour éviter la crise..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeDecisionModal()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal Console d'Administration (IT) -->
+    <div id="logsModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Console d'Administration & Sécurité IT</h2>
+                <span class="close-btn" onclick="closeLogsModal()">&times;</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <!-- Les boutons de maintenance sont maintenant ici -->
+                <button class="btn btn-outline" onclick="document.getElementById('integrationModal').classList.add('show'); closeLogsModal();">📂 Restauration / Intégration</button>
+                <button class="btn btn-outline" onclick="exportData()">💾 Sauvegarde (Export JSON)</button>
+                <button class="btn btn-primary" onclick="fetchLogs()">Consulter Logs IT</button>
+            </div>
+
+            <div style="background:#1e1e1e; color:#0f0; padding:15px; border-radius:5px; height:250px; overflow-y:scroll; font-family:monospace; font-size:12px; white-space:pre-wrap;" id="it-logs-content">
+                Cliquez sur "Consulter Logs IT" pour charger les événements système...
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="closeLogsModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Intégration Données -->
+    <div id="integrationModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Intégration de Données</h2>
+                <span class="close-btn" onclick="document.getElementById('integrationModal').classList.remove('show')">&times;</span>
+            </div>
+            <p style="margin-bottom: 1.5rem; color: var(--c2s-text-muted); line-height: 1.6;">
+                Chargez un fichier de secours officiel (.json) issu d'un de vos exports pour restaurer la base. Les doublons seront automatiquement ignorés.
+            </p>
+            <div class="form-group">
+                <input type="file" id="importFileVisual" accept=".json" style="padding:1rem;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="document.getElementById('integrationModal').classList.remove('show')">Annuler</button>
+                <button type="button" class="btn btn-primary" onclick="processIntegration()">Lancer l'intégration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Messagerie Réseau -->
+    <div id="messagingModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Messagerie Instantanée C2S</h2>
+                <span class="close-btn" onclick="closeMessagingModal()">&times;</span>
+            </div>
+            <div id="messages-display" style="height: 300px; overflow-y: auto; background: var(--c2s-bg-main); border: 1px solid var(--c2s-borders); border-radius: 10px; padding: 1rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 10px;">
+                <!-- Messages chargés dynamiquement -->
+                <p style="text-align: center; color: var(--c2s-text-muted);">Chargement des messages...</p>
+            </div>
+            <form id="messageForm">
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <input type="text" id="msg-sender" placeholder="Votre Nom / Poste" required style="font-size: 0.8rem; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--c2s-borders); width: 100%;">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="msg-content" placeholder="Tapez votre message ici..." required style="flex: 1; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--c2s-borders); background-color: var(--c2s-white); color: var(--c2s-text-dark);">
+                    <button type="submit" class="btn btn-primary" style="padding: 0 1.5rem;">Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Rapports Stratégiques -->
+    <div id="reportsModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Centre de Rapports Stratégiques</h2>
+                <span class="close-btn" onclick="document.getElementById('reportsModal').classList.remove('show')">&times;</span>
+            </div>
+            <p style="margin-bottom: 20px; color: var(--c2s-text-muted);">Générez un résumé de la situation pour les décideurs.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 25px;">
+                <button class="btn btn-outline" onclick="generateReport('JOURNALIER')" style="font-size: 0.8rem;">Journalier</button>
+                <button class="btn btn-outline" onclick="generateReport('MENSUEL')" style="font-size: 0.8rem;">Mensuel</button>
+                <button class="btn btn-outline" onclick="generateReport('SEMESTRIEL')" style="font-size: 0.8rem;">Semestriel</button>
+                <button class="btn btn-outline" onclick="generateReport('ANNUEL')" style="font-size: 0.8rem;">Annuel</button>
+            </div>
+
+            <div id="report-result" style="display: none; background: var(--c2s-bg-main); padding: 15px; border-radius: 10px; border: 1px solid var(--c2s-borders);">
+                <h4 id="report-title" style="margin-bottom: 10px; color: var(--c2s-accent);"></h4>
+                <p style="font-size: 0.75rem; color: var(--c2s-text-muted); margin-bottom: 8px;">ℹ️ Vous pouvez modifier ou compléter le rapport ci-dessous avant l'export.</p>
+                <textarea id="report-text" style="width: 100%; height: 250px; font-size: 0.85rem; padding: 10px; border-radius: 8px; border: 1px solid var(--c2s-borders); font-family: monospace; resize: vertical; margin-bottom: 15px; background: var(--c2s-white); color: var(--c2s-text-dark);"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="downloadReport()">Télécharger</button>
+                    <button class="btn btn-outline" onclick="printReport()" style="flex:1;">🖨️ Imprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Paramètres -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content" style="max-width: 520px;">
+            <div class="modal-header">
+                <h2>Personnalisation du Système</h2>
+                <span class="close-btn" onclick="document.getElementById('settingsModal').classList.remove('show')">&times;</span>
+            </div>
+
+            <!-- Aperçu live -->
+            <div class="theme-live-preview" id="themeLivePreview">
+                <div class="preview-bar" id="previewBar">
+                    <div class="preview-dot"></div>
+                    <div class="preview-dot"></div>
+                    <div class="preview-dot"></div>
+                </div>
+                <div class="preview-body">
+                    <div class="preview-sidebar" id="previewSidebar">
+                        <div class="preview-logo"></div>
+                        <div class="preview-nav-line"></div>
+                        <div class="preview-nav-line"></div>
+                        <div class="preview-nav-line"></div>
+                    </div>
+                    <div class="preview-main">
+                        <div class="preview-cards">
+                            <div class="preview-card" id="previewCard1"></div>
+                            <div class="preview-card" id="previewCard2"></div>
+                            <div class="preview-card" id="previewCard3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="settings-section-title">Palettes Prédéfinies</h3>
+            <div class="theme-gallery" id="theme-gallery">
+                <div class="theme-card active" data-accent="#111c44" data-bg="#f5f5f7" data-name="Business Blue" onclick="applyThemePreset('#111c44', '#f5f5f7', 'Business Blue')">
+                    <div class="theme-preview">
+                        <div class="preview-accent" style="background: #111c44;"></div>
+                        <div class="preview-bg" style="background: #f5f5f7;"></div>
+                    </div>
+                    <div class="theme-name">Business Blue</div>
+                </div>
+                <div class="theme-card" data-accent="#007FFF" data-bg="#f0f9ff" data-name="DRC Sky" onclick="applyThemePreset('#007FFF', '#f0f9ff', 'DRC Sky')">
+                    <div class="theme-preview">
+                        <div class="preview-accent" style="background: #007FFF;"></div>
+                        <div class="preview-bg" style="background: #f0f9ff;"></div>
+                    </div>
+                    <div class="theme-name">Drapeau RDC</div>
+                </div>
+                <div class="theme-card" data-accent="#ffffff" data-bg="#0b1437" data-name="Deep Night" onclick="applyThemePreset('#ffffff', '#0b1437', 'Deep Night')">
+                    <div class="theme-preview">
+                        <div class="preview-accent" style="background: #ffffff;"></div>
+                        <div class="preview-bg" style="background: #0b1437;"></div>
+                    </div>
+                    <div class="theme-name">Deep Night</div>
+                </div>
+                <div class="theme-card" data-accent="#05cd99" data-bg="#f0fff4" data-name="Emerald" onclick="applyThemePreset('#05cd99', '#f0fff4', 'Emerald')">
+                    <div class="theme-preview">
+                        <div class="preview-accent" style="background: #05cd99;"></div>
+                        <div class="preview-bg" style="background: #f0fff4;"></div>
+                    </div>
+                    <div class="theme-name">Émeraude</div>
+                </div>
+                <div class="theme-card" data-accent="#ff6b6b" data-bg="#fff5f5" data-name="Coral" onclick="applyThemePreset('#ff6b6b', '#fff5f5', 'Coral')">
+                    <div class="theme-preview">
+                        <div class="preview-accent" style="background: #ff6b6b;"></div>
+                        <div class="preview-bg" style="background: #fff5f5;"></div>
+                    </div>
+                    <div class="theme-name">Coral</div>
+                </div>
+                <div class="theme-card" data-accent="#6c5ce7" data-bg="#f8f7ff" data-name="Purple Haze" onclick="applyThemePreset('#6c5ce7', '#f8f7ff', 'Purple Haze')">
+                    <div class="theme-preview">
+                        <div class="preview-accent" style="background: #6c5ce7;"></div>
+                        <div class="preview-bg" style="background: #f8f7ff;"></div>
+                    </div>
+                    <div class="theme-name">Purple Haze</div>
+                </div>
+            </div>
+
+            <div id="advanced-settings" style="display: none;">
+                <h3 class="settings-section-title">Couleurs Personnalisées</h3>
+                
+                <div class="color-custom-row">
+                    <div class="color-custom-group">
+                        <label for="colorPicker">Couleur d'Accent</label>
+                        <div class="color-input-group">
+                            <input type="color" id="colorPicker" value="#111c44">
+                            <input type="text" id="colorHexAccent" value="#111c44" maxlength="7" class="color-hex-input">
+                        </div>
+                    </div>
+                    <div class="color-custom-group">
+                        <label for="bgColorPicker">Couleur de Fond</label>
+                        <div class="color-input-group">
+                            <input type="color" id="bgColorPicker" value="#f5f5f7">
+                            <input type="text" id="colorHexBg" value="#f5f5f7" maxlength="7" class="color-hex-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="color-sliders">
+                    <div class="color-slider-group">
+                        <label>Luminosité Accent</label>
+                        <div class="slider-with-value">
+                            <input type="range" id="brightnessSlider" min="0" max="100" value="50">
+                            <span id="brightnessValue" class="slider-value">50%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="color-info-row">
+                    <div class="color-info-chip">
+                        <span class="chip-label">Arrière-plan</span>
+                        <span class="chip-bg" id="chipBg"></span>
+                    </div>
+                    <div class="color-info-chip">
+                        <span class="chip-label">Textes</span>
+                        <span class="chip-text" id="chipText"></span>
+                    </div>
+                    <div class="color-info-chip">
+                        <span class="chip-label">Boutons</span>
+                        <span class="chip-accent" id="chipAccent"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advanced-toggle">
+                <button class="btn-link" onclick="toggleAdvancedSettings()" id="btn-toggle-advanced">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <span>Réglages Avancés</span>
+                </button>
+            </div>
+
+            <div class="settings-footer-actions">
+                <button class="btn btn-outline btn-config" onclick="exportThemeConfig()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Exporter le thème
+                </button>
+                <button class="btn btn-outline btn-config" onclick="document.getElementById('importThemeInput').click()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Importer un thème
+                </button>
+                <input type="file" id="importThemeInput" accept=".json" style="display: none;" onchange="importThemeConfig(event)">
+                <button class="btn btn-primary" onclick="document.getElementById('settingsModal').classList.remove('show')">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Blocages (Goulots) -->
+    <div id="blocagesModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Analyse des Blocages (Goulots d'étranglement)</h2>
+                <span class="close-btn" onclick="document.getElementById('blocagesModal').classList.remove('show')">&times;</span>
+            </div>
+            <p style="margin-bottom: 20px; color: var(--c2s-text-muted);">Vue détaillée des projets en retard majeur ou blocage nécessitant l'utilisation des mesures correctrices proposées.</p>
+            
+            <div class="table-container" style="margin-top: 0; padding: 1rem; box-shadow: none; border: 1px solid var(--c2s-borders); max-height: 400px; overflow-y: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Réf.</th>
+                            <th>Intitulé</th>
+                            <th>Structure</th>
+                            <th>Alerte Signalée</th>
+                            <th>Action Corrective</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blocages-tbody">
+                        <!-- Rempli dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('blocagesModal').classList.remove('show')">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bot déplacé dans la sidebar -->
+    
+    <!-- Pointeur de la souris virtuelle (Bot) -->
+    <div id="virtual-cursor" style="display: none;"></div>
+
+    <!-- Container Notifications Non-Bloquantes -->
+    <div id="toast-container"></div>
+    
+    <!-- Déployer sur GitHub Pages ? Décommentez et renseignez l'URL Render ci-dessous :
+    <script>window._C2S_API_URL = 'https://votre-backend.onrender.com/api';</script>
+    -->
+    <script src="js/config.js"></script>
+    <script src="js/bot.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
