@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2S - Guide et Manuel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: var(--c2s-bg-main); color: var(--c2s-text-dark); margin: 0; padding: 2rem; font-family: 'Inter', sans-serif; transition: all 0.3s ease; overflow: auto; height: auto; min-height: 100vh; }
+        .guide-container { 
+            max-width: 950px; 
+            margin: 2rem auto; 
+            padding: 4rem; 
+            background: var(--c2s-white); 
+            border-radius: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
+            border: 1px solid var(--c2s-borders);
+        }
+        .guide-container h1 { color: var(--c2s-accent); margin-bottom: 2rem; border-bottom: 2px solid var(--c2s-borders); padding-bottom: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+        .guide-container h2 { color: var(--c2s-text-dark); margin-top: 3.5rem; margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; gap: 15px; }
+        .guide-container h3 { color: var(--c2s-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.3rem; font-weight: 700; }
+        .guide-container p, .guide-container li { line-height: 1.9; margin-bottom: 1.2rem; color: var(--c2s-text-muted); font-size: 1.05rem;}
+        .guide-container ul { padding-left: 1.5rem; list-style-type: none; }
+        .guide-container ul li::before { content: "•"; color: var(--c2s-accent); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+        .guide-container ol { padding-left: 1.5rem; }
+        .guide-container ol li { margin-bottom: 0.8rem; }
+        .guide-container table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        .guide-container th, .guide-container td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--c2s-borders); }
+        .guide-container th { background: var(--c2s-bg-main); font-weight: 700; color: var(--c2s-accent); }
+        .btn-back { 
+            display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 3rem; 
+            text-decoration: none; font-weight: 700; color: #fff; 
+            padding: 0.8rem 1.5rem; border-radius: 12px; background: var(--c2s-accent);
+            box-shadow: 0 10px 20px rgba(17, 28, 68, 0.2);
+            transition: all 0.3s;
+        }
+        .btn-back:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(17, 28, 68, 0.3); }
+        code { background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; color: #ef4444; font-family: monospace; font-weight: 600; }
+        .tip-box { background: #f0f4ff; border-left: 5px solid var(--c2s-accent); padding: 1.5rem; border-radius: 12px; margin: 2rem 0; }
+        .warning-box { background: #fff8f0; border-left: 5px solid #f59e0b; padding: 1.5rem; border-radius: 12px; margin: 2rem 0; }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <a href="index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Retour au Système
+        </a>
+
+        <h1>Manuel d'Utilisation et d'Administration C2C</h1>
+        <p>Bienvenue dans la version enrichie du guide <strong>Pilotage Stratégique C2C</strong>. Ce manuel couvre les fonctionnalités de personnalisation, de sécurité et de gestion stratégique implémentées pour la cellule stratégique.</p>
+
+        <div class="tip-box">
+            <h4 style="margin:0 0 0.5rem 0; color: var(--c2s-accent);">NOTE DE SÉCURITÉ</h4>
+            <p style="margin:0; font-size: 0.9rem;">L'application utilise désormais une <strong>authentification par JWT (jetons signés)</strong> avec mots de passe hachés (bcrypt). Toutes les routes API sont protégées par un middleware qui vérifie le token à chaque requête.</p>
+        </div>
+
+        <h2>MANUEL D'ADMINISTRATION (POUR LE SERVICE IT)</h2>
+
+        <h3>1) Déploiement et Configuration</h3>
+        <ul>
+            <li><strong>Base de Données :</strong> SQLite locale (<code>backend/c2s_database.db</code>). Pour PostgreSQL, modifier <code>DATABASE_URL</code> dans <code>backend/.env</code>.</li>
+            <li><strong>Configuration :</strong> Un fichier <code>backend/.env</code> centralise la configuration (clé secrète JWT, expiration du token, origines CORS, URL de base de données).</li>
+            <li><strong>Structure du Backend :</strong> Le code est organisé en modules : <code>config.py</code> (configuration), <code>auth.py</code> (JWT, hash), <code>models.py</code> (ORM), <code>schemas.py</code> (validation), <code>main.py</code> (routes).</li>
+        </ul>
+
+        <h3>2) Démarrage du Serveur</h3>
+        <ol>
+            <li><code>cd backend</code></li>
+            <li><code>pip install -r requirements.txt</code></li>
+            <li><code>python -m uvicorn main:app --reload</code></li>
+        </ol>
+        <p>Le serveur démarre sur <code>http://127.0.0.1:8000</code>. Les utilisateurs par défaut sont créés automatiquement au premier lancement.</p>
+
+        <h3>3) Utilisateurs par Défaut</h3>
+        <table>
+            <tr><th>Utilisateur</th><th>Mot de passe</th><th>Rôle</th><th>Permissions</th></tr>
+            <tr><td><code>admin_it</code></td><td><code>admin2026</code></td><td>IT</td><td>Administration technique, logs</td></tr>
+            <tr><td><code>operateur</code></td><td><code>operateur2026</code></td><td>OPÉRATEUR</td><td>Gestion des décisions</td></tr>
+            <tr><td><code>decideur</code></td><td><code>decideur2026</code></td><td>DÉCIDEUR</td><td>Consultation et validation</td></tr>
+        </table>
+
+        <h3>4) Sécurité</h3>
+        <ul>
+            <li><strong>Authentification :</strong> Toutes les routes <code>/api/*</code> (sauf <code>/api/login</code>) sont protégées par un middleware.</li>
+            <li><strong>Mots de passe :</strong> Hachés avec <strong>bcrypt</strong> avant stockage.</li>
+            <li><strong>Tokens JWT :</strong> Signés avec une clé secrète (configurable dans <code>.env</code>), expiration par défaut de 8 heures.</li>
+            <li><strong>CORS :</strong> Configurable via <code>CORS_ORIGINS</code> dans <code>.env</code>.</li>
+            <li><strong>Environnement :</strong> Le fichier <code>.env</code> contient les secrets et n'est pas versionné (présent dans <code>.gitignore</code>).</li>
+        </ul>
+
+        <div class="warning-box">
+            <h4 style="margin:0 0 0.5rem 0; color: #f59e0b;">IMPORTANT SÉCURITÉ</h4>
+            <p style="margin:0; font-size: 0.9rem;">Changez la clé secrète <code>SECRET_KEY</code> dans <code>backend/.env</code> avant tout déploiement en production. En environnement réel, passez sur PostgreSQL et activez HTTPS.</p>
+        </div>
+
+        <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--c2s-borders);">
+
+        <h2>MANUEL UTILISATEUR (POUR LE CABINET)</h2>
+
+        <h3>A. Connexion à l'Application</h3>
+        <ol>
+            <li>Ouvrez votre navigateur et allez sur <code>http://127.0.0.1:8080</code> (ou l'adresse du serveur).</li>
+            <li>Vous êtes redirigé vers la page de connexion.</li>
+            <li>Saisissez votre nom d'utilisateur et mot de passe fournis par le service IT.</li>
+            <li>Cliquez sur <strong>S'identifier</strong>. Si les identifiants sont corrects, vous accédez au tableau de bord.</li>
+        </ol>
+
+        <h3>B. Personnalisation Visuelle (Thèmes)</h3>
+        <ul>
+            <li><strong>Galerie de Thèmes :</strong> Cliquez sur "Paramètres" pour choisir parmi des ambiances prédéfinies (Business Blue, Drapeau RDC, Deep Night, Émeraude).</li>
+            <li><strong>Réglages Avancés :</strong> Vous pouvez affiner chaque couleur manuellement via l'onglet "Réglages avancés".</li>
+            <li><strong>Persistance :</strong> Vos choix de couleurs sont mémorisés même après fermeture du navigateur.</li>
+            <li><strong>Export/Import :</strong> Sauvegardez et restaurez votre configuration visuelle via les boutons dédiés.</li>
+        </ul>
+
+        <h3>C. Rapports Stratégiques</h3>
+        <ul>
+            <li><strong>Édition Libre :</strong> Les rapports générés automatiquement sont modifiables. Vous pouvez cliquer dans la zone de texte pour ajouter vos propres analyses avant de télécharger ou d'imprimer.</li>
+            <li><strong>Types de Rapports :</strong> Quotidien, Mensuel, Semestriel, Annuel.</li>
+            <li><strong>Impression :</strong> Le bouton "Imprimer" formate le document pour une présentation claire en réunion.</li>
+        </ul>
+
+        <h3>D. Gestion des Données (Export/Import JSON)</h3>
+        <ul>
+            <li><strong>Export :</strong> Télécharge un fichier <code>.json</code> contenant toutes les décisions pour archivage.</li>
+            <li><strong>Import :</strong> Restaure des décisions depuis un fichier JSON précédemment exporté.</li>
+            <li><strong>Sauvegarde automatique :</strong> Le système sauvegarde les données en local toutes les 2 minutes.</li>
+            <li><strong>Mode Hors-Ligne :</strong> En cas de perte de connexion, les données restent accessibles depuis le cache. Les modifications sont synchronisées automatiquement au retour de la connexion.</li>
+        </ul>
+
+        <h3>E. Aide Interactive (Assistant C2C)</h3>
+        <p>Situé dans le menu latéral, l'assistant vous guide pas à pas :</p>
+        <ol>
+            <li>Cliquez sur l'assistant pour ouvrir le menu des tutoriels.</li>
+            <li>Sélectionnez une action (ex: "Nouvelle Décision", "Corriger une Erreur").</li>
+            <li>Observez la souris virtuelle se déplacer et cliquer pour vous montrer la marche à suivre.</li>
+        </ol>
+
+        <h3>F. Messagerie Réseau</h3>
+        <ul>
+            <li><strong>Accès :</strong> Depuis le menu latéral, cliquez sur "Messagerie".</li>
+            <li><strong>Envoi :</strong> Saisissez votre nom et votre message, puis cliquez sur "Envoyer".</li>
+            <li><strong>Réception :</strong> Les messages se rafraîchissent automatiquement toutes les 10 secondes.</li>
+        </ul>
+
+    </div>
+
+    <script>
+        function applyBackgroundColor(hexColor) {
+            document.documentElement.style.setProperty('--c2s-bg-main', hexColor);
+            var c = hexColor.substring(1);
+            var rgb = parseInt(c, 16);
+            var r = (rgb >> 16) & 0xff; var g = (rgb >>  8) & 0xff; var b = (rgb >>  0) & 0xff;
+            var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            if (luma < 128) {
+                document.documentElement.style.setProperty('--c2s-white', '#1e293b');
+                document.documentElement.style.setProperty('--c2s-text-dark', '#f8fafc');
+                document.documentElement.style.setProperty('--c2s-borders', '#334155');
+            } else {
+                document.documentElement.style.setProperty('--c2s-white', '#ffffff');
+                document.documentElement.style.setProperty('--c2s-text-dark', '#2b3674');
+                document.documentElement.style.setProperty('--c2s-borders', '#e9edf7');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedAccent = localStorage.getItem('c2sThemeColor') || "#111c44";
+            const savedBg = localStorage.getItem('c2sThemeBg') || "#f4f7fe";
+            document.documentElement.style.setProperty('--c2s-accent', savedAccent);
+            applyBackgroundColor(savedBg);
+            const darkMode = localStorage.getItem('c2sDarkMode') === 'true';
+            if(darkMode) {
+                applyBackgroundColor("#0b1437");
+            }
+        });
+    </script>
+</body>
+</html>
